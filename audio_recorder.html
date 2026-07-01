@@ -1,0 +1,75 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+body{margin:0;padding:0;background:transparent}
+button{
+    background:linear-gradient(90deg,#00d2ff,#7b2ff7);
+    color:white;border:none;border-radius:10px;
+    padding:0.6rem 1.5rem;font-weight:700;
+    cursor:pointer;font-size:1rem;margin:0.3rem
+}
+button:hover{opacity:0.85}
+button:disabled{opacity:0.4;cursor:not-allowed}
+#status{color:#aaa;font-size:0.9rem;margin-top:0.5rem}
+#timer{color:#00d2ff;font-size:1.5rem;font-weight:800}
+</style>
+</head>
+<body>
+<div id="timer">00:00</div>
+<div>
+<button id="startBtn" onclick="startRecording()">🎙️ Start Recording</button>
+<button id="stopBtn" onclick="stopRecording()" disabled>⏹️ Stop & Analyze</button>
+</div>
+<div id="status">Click Start Recording when you begin answering.</div>
+<script>
+let mediaRecorder, chunks=[], timerInterval, seconds=0;
+
+function updateTimer(){
+    seconds++;
+    let m=Math.floor(seconds/60).toString().padStart(2,'0');
+    let s=(seconds%60).toString().padStart(2,'0');
+    document.getElementById('timer').textContent=m+':'+s;
+}
+
+async function startRecording(){
+    try{
+        let stream=await navigator.mediaDevices.getUserMedia({audio:true});
+        mediaRecorder=new MediaRecorder(stream);
+        chunks=[];
+        mediaRecorder.ondataavailable=e=>chunks.push(e.data);
+        mediaRecorder.onstop=async()=>{
+            let blob=new Blob(chunks,{type:'audio/wav'});
+            let reader=new FileReader();
+            reader.onload=()=>{
+                let b64=reader.result.split(',')[1];
+                window.parent.postMessage({type:'streamlit:setComponentValue',value:b64},'*');
+            };
+            reader.readAsDataURL(blob);
+        };
+        mediaRecorder.start();
+        seconds=0;
+        timerInterval=setInterval(updateTimer,1000);
+        document.getElementById('startBtn').disabled=true;
+        document.getElementById('stopBtn').disabled=false;
+        document.getElementById('status').textContent='Recording... Speak your answer clearly.';
+        document.getElementById('timer').style.color='#e74c3c';
+    }catch(e){
+        document.getElementById('status').textContent='Microphone access denied. Please allow microphone.';
+    }
+}
+
+function stopRecording(){
+    if(mediaRecorder&&mediaRecorder.state!='inactive'){
+        mediaRecorder.stop();
+        clearInterval(timerInterval);
+        document.getElementById('startBtn').disabled=false;
+        document.getElementById('stopBtn').disabled=true;
+        document.getElementById('status').textContent='Processing audio... Please wait.';
+        document.getElementById('timer').style.color='#27ae60';
+    }
+}
+</script>
+</body>
+</html>

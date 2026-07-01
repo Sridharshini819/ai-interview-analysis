@@ -1,0 +1,123 @@
+import random
+
+DATA_SCIENCE_QUESTIONS = [
+    'Explain the difference between supervised and unsupervised learning.',
+    'What is overfitting and how do you prevent it?',
+    'Explain the bias-variance tradeoff.',
+    'What is cross-validation and why is it important?',
+    'Explain the difference between classification and regression.',
+    'What is feature engineering and why does it matter?',
+    'How do you handle missing data in a dataset?',
+    'What is the curse of dimensionality?',
+    'Explain the difference between bagging and boosting.',
+    'What is regularization? Explain L1 and L2 regularization.',
+    'What is the difference between mean, median, and mode?',
+    'Explain p-value and statistical significance.',
+    'What is a confidence interval?',
+    'Explain the Central Limit Theorem.',
+    'What is the difference between correlation and causation?',
+    'What is hypothesis testing?',
+    'Explain Type I and Type II errors.',
+    'What is A/B testing and when would you use it?',
+    'How does a decision tree work?',
+    'What is a random forest and how does it improve on decision trees?',
+    'Explain how gradient descent works.',
+    'What is a support vector machine?',
+    'How does the K-nearest neighbors algorithm work?',
+    'What is K-means clustering?',
+    'Explain how neural networks work.',
+    'What is backpropagation?',
+    'What is transfer learning?',
+    'Explain the attention mechanism in transformers.',
+    'What is the difference between CNN and RNN?',
+    'How does logistic regression work?',
+    'What is PCA and when would you use it?',
+    'Explain precision, recall, and F1 score.',
+    'What is ROC-AUC and how do you interpret it?',
+    'How do you deal with imbalanced datasets?',
+    'What is batch normalization and why is it useful?',
+    'Explain dropout regularization.',
+    'What is the vanishing gradient problem?',
+    'What optimizers have you used and how do they differ?',
+    'Explain the difference between Adam and SGD optimizers.',
+    'How do you handle large datasets that do not fit in memory?',
+    'What is the difference between SQL and NoSQL databases?',
+    'Explain ETL pipelines.',
+    'What is feature scaling and when is it necessary?',
+    'How do you detect and handle outliers?',
+    'Walk me through your data science project workflow.',
+    'How do you evaluate a machine learning model in production?',
+    'What metrics would you use to evaluate a recommendation system?',
+    'How would you explain a complex ML model to a non-technical stakeholder?',
+    'What tools and libraries do you use for data science?',
+    'How do you stay updated with the latest developments in data science?',
+    'Describe a challenging data science project you have worked on.',
+    'How do you decide which algorithm to use for a given problem?',
+    'What is the difference between online and batch learning?',
+    'How do you monitor model performance after deployment?',
+]
+
+SOFT_SKILLS_QUESTIONS = [
+    'Tell me about yourself.',
+    'Walk me through your resume.',
+    'What are your greatest strengths?',
+    'What is your biggest weakness and how are you working on it?',
+    'Where do you see yourself in 5 years?',
+    'Tell me about a time you failed and what you learned from it.',
+    'Describe a situation where you had to work under pressure.',
+    'Tell me about a time you had a conflict with a teammate and how you resolved it.',
+    'Describe a time when you had to learn something new quickly.',
+    'Tell me about a time you took initiative on a project.',
+    'Describe a situation where you had to meet a tight deadline.',
+    'Tell me about a time you received critical feedback. How did you respond?',
+    'Describe a time you had to make a difficult decision with limited information.',
+    'Tell me about a project you are most proud of.',
+    'Describe a time you had to persuade someone to see your point of view.',
+    'How do you handle disagreements with your manager?',
+    'Describe your ideal work environment.',
+    'How do you prioritize tasks when you have multiple deadlines?',
+    'How do you handle working with people who have different work styles?',
+    'Tell me about a time you mentored or helped a colleague.',
+    'Why do you want to work in data science?',
+    'Why are you leaving your current job?',
+    'Why do you want to work at this company?',
+    'What motivates you in your work?',
+    'What do you enjoy most about data science?',
+    'How do you approach a problem you have never seen before?',
+    'Describe your process when starting a new data science project.',
+    'How do you handle ambiguity in a project?',
+    'What do you do when you are stuck on a problem?',
+    'How do you balance technical depth with meeting business requirements?',
+    'How do you explain technical concepts to non-technical people?',
+    'How do you present your findings to stakeholders?',
+    'Describe a time when your communication skills made a difference.',
+    'How do you document your work and code?',
+    'How do you give and receive feedback effectively?',
+    'What are your salary expectations?',
+    'Are you comfortable working remotely?',
+    'How do you keep your technical skills sharp?',
+    'What projects are you currently working on outside of work?',
+    'Do you have any questions for us?',
+]
+
+ALL_QUESTIONS = DATA_SCIENCE_QUESTIONS + SOFT_SKILLS_QUESTIONS
+
+CATEGORIES = {
+    'Data Science':  DATA_SCIENCE_QUESTIONS,
+    'Soft Skills':   SOFT_SKILLS_QUESTIONS,
+    'All Questions': ALL_QUESTIONS,
+}
+
+def get_random_question(category='All Questions'):
+    questions = CATEGORIES.get(category, ALL_QUESTIONS)
+    return random.choice(questions)
+
+def get_all_questions(category='All Questions'):
+    return CATEGORIES.get(category, ALL_QUESTIONS)
+
+def get_question_count():
+    return {
+        'Data Science':  len(DATA_SCIENCE_QUESTIONS),
+        'Soft Skills':   len(SOFT_SKILLS_QUESTIONS),
+        'Total':         len(ALL_QUESTIONS),
+    }
